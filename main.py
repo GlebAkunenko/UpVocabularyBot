@@ -117,7 +117,11 @@ async def check_answer(message: Message):
         else:
             await bot.send_message(user_id, replicas["and"] % (lesson.answers_count - lesson.right_answers))
     else:
-        await bot.send_message(user_id, replicas["No"])
+        translation =  lesson.try_get_translation(message.text)
+        if translation is None:
+            await bot.send_message(user_id, replicas["No"])
+        else:
+            await bot.send_message(user_id, replicas["it_is_differ"] % translation)
 
 
 

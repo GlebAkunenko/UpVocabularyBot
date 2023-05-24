@@ -27,6 +27,12 @@ class Lesson:
 	def check_answer(self, answer: str):
 		return answer in self.exercises[self.current_question]
 
+	def try_get_translation(self, answer: str) -> str | None:
+		for exercise in self.exercises:
+			if answer in self.exercises[exercise]:
+				return exercise
+		return None
+
 	@property
 	def answers_count(self):
 		return len(self.exercises[self.current_question])
