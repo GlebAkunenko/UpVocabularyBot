@@ -12,6 +12,6 @@ cancel = InlineKeyboardMarkup(
 )
 
 choose = InlineKeyboardMarkup( [
-	[InlineKeyboardButton("Обычный", callback_data='1')],
-	[InlineKeyboardButton("Обратный", callback_data='2')]
+	[InlineKeyboardButton("Обычный", callback_data='dir')],
+	[InlineKeyboardButton("Обратный", callback_data='rev')]
 ])

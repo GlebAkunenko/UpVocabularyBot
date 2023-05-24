@@ -74,7 +74,7 @@ async def get_dict(message: Message):
         await bot.send_message(message.from_user.id, replicas["wrong_format"])
 
 
-@bot.callback_query_handler(func=with_queries('1', '2'))
+@bot.callback_query_handler(func=with_queries('dir', 'rev'))
 async def get_mode(query: CallbackQuery):
     await bot.answer_callback_query(query.id)
     user_id = query.from_user.id
@@ -83,15 +83,18 @@ async def get_mode(query: CallbackQuery):
     user = users[user_id]
     if user.state == "wait_mode":
         match query.data:
-            case '1':
+            case 'dir':
                 user.lesson = Lesson(user.dictionary.direct)
-            case '2':
+            case 'rev':
                 user.lesson = Lesson(user.dictionary.reverse)
             case _:
                 await bot.answer_callback_query(query.id, "Error")
                 return
         user.state = "wait_answer"
+        message = query.message
+        await bot.edit_message_text(message.text, message.chat.id, message.id, reply_markup=None)
         await bot.send_message(user_id, user.lesson.current_question)
+
 
 
 @bot.message_handler(func=with_state("wait_answer"))
