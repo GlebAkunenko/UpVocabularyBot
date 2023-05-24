@@ -31,7 +31,7 @@ class Parser:
 			keys, values = line.replace('—', '-').split("-")
 			keys = keys.split(",")
 			values = values.split(",")
-			func = lambda s: s.strip()
+			func = lambda s: s.strip().lower()
 			keys = list(map(func, keys))
 			values = list(map(func, values))
 			content.append([keys, values])

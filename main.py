@@ -102,7 +102,7 @@ async def check_answer(message: Message):
     user_id = message.from_user.id
     user = users[user_id]
     lesson = user.lesson
-    if lesson.check_answer(message.text.strip()):
+    if lesson.check_answer(message.text.strip().lower()):
         lesson.right_answers += 1
         if lesson.is_question_completed():
             lesson.complete_question()
