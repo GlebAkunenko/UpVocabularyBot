@@ -63,8 +63,15 @@ async def start(message: Message):
                            help_text.replace("<", "\\<").replace(">", "\\>").replace("-", "—").replace(".", "\\."),
                            parse_mode="MarkdownV2")
 
+@bot.message_handler(commands='load_dict')
+async def load_dict(message: Message):
+    user_id = message.from_user.id
+    new_user = User()
+    users[user_id] = new_user
+    await to_wait_dict(message)
 
-@bot.message_handler(func=with_texts('/load_dict', "Отправить словарь"))
+
+@bot.message_handler(func=with_texts("Отправить словарь"))
 async def to_wait_dict(message: Message):
     user = users[message.from_user.id]
     user.state = "wait_dict"
