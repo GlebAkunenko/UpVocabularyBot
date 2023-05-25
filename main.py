@@ -16,6 +16,9 @@ users: dict[int, User] = {}
 with open(config.replicas_filename, 'r', encoding='utf-8') as f:
     replicas = json.load(f)
 
+with open(config.help_filename, 'r', encoding='utf-8') as f:
+    help_text = f.read()
+
 
 def with_state(state):
     def _check(message: Message):
@@ -52,6 +55,13 @@ async def start(message: Message):
     new_user = User()
     users[user_id] = new_user
     await bot.send_message(user_id, replicas['hello'], reply_markup=keyboards.start)
+
+
+@bot.message_handler(commands=['help'])
+async def start(message: Message):
+    await bot.send_message(message.from_user.id,
+                           help_text.replace("<", "\\<").replace(">", "\\>").replace("-", "—").replace(".", "\\."),
+                           parse_mode="MarkdownV2")
 
 
 @bot.message_handler(func=with_texts('/load_dict', "Отправить словарь"))
